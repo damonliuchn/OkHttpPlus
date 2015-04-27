@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onFailed(Response response, Exception e) {
-                Log.i("MainActivity", response.code() + "");
+                Log.i("MainActivity ", response.code() + "");
             }
 
             @Override
