@@ -36,6 +36,20 @@ OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_GET, "http://httpbin.o
         });
 ```
 
+
+```java
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    compile 'com.github.MasonLiuChn:OkHttpPlus:1.0.1'
+}
+```
+
+
 -----
 Blog:http://blog.csdn.net/masonblog
 
