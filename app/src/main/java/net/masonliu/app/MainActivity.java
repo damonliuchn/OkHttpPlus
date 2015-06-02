@@ -1,15 +1,14 @@
-package net.masonliu.okhttpplus;
+package net.masonliu.app;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Base64;
 import android.util.Log;
 
 import com.squareup.okhttp.Response;
 
-import net.masonliu.okhttpplus.extension.OkHttpUtil;
-import net.masonliu.okhttpplus.extension.SimpleRequest;
-import net.masonliu.okhttpplus.extension.TextCallback;
+import net.masonliu.okhttpplus.OkHttpUtil;
+import net.masonliu.okhttpplus.SimpleRequest;
+import net.masonliu.okhttpplus.TextCallback;
 
 /**
  * Created by liumeng on 4/9/15.
@@ -23,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
         OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_GET, "http://httpbin.org/get", null), new TextCallback() {
 
             @Override
-            public void onSuccess(Response response,String result) {
+            public void onSuccess(Response response, String result) {
                 Log.i("MainActivity", result);
             }
 

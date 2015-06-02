@@ -2,7 +2,7 @@
 /.gradle
 /local.properties
 /build
-/app/build
+/*/build
 *.apk
 *.iml
 
@@ -31,9 +31,5 @@ Thumbs.db
 com_crashlytics_export_strings.xml
 crashlytics-build.properties
 
-#libsigner
-app/src/main/jniLibs/*/libsigner.so
-
 #mybuild.gradle
 app/mybuild.gradle
-config.properties

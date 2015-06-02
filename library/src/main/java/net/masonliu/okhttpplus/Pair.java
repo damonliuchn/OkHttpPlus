@@ -1,4 +1,4 @@
-package net.masonliu.okhttpplus.extension;
+package net.masonliu.okhttpplus;
 
 public class Pair<A, B> {
 
