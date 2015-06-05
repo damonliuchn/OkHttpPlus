@@ -1,6 +1,6 @@
 # OkHttpPlus
 
-A extention for okhttp
+A extension for okhttp
 
 # Feature
 
