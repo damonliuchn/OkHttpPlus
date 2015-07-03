@@ -21,7 +21,7 @@ A extension for okhttp
 # Usage
 ```java
       OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_GET, "http://httpbin.org/get", null), 
-         new TextCallback(){
+         new TextCallback(this){
 
             @Override
             public void onSuccess(Response response,String result) {
