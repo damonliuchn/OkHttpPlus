@@ -20,7 +20,8 @@ A extension for okhttp
 
 # Usage
 ```java
-OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_GET, "http://httpbin.org/get", null), new TextCallback() {
+      OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_GET, "http://httpbin.org/get", null), 
+         new TextCallback(){
 
             @Override
             public void onSuccess(Response response,String result) {
@@ -43,7 +44,7 @@ OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_GET, "http://httpbin.o
             }
         });
         
-        OkHttpUtil.get("http://httpbin.org/get", null, new TextCallback(this) {
+      OkHttpUtil.get("http://httpbin.org/get", null, new TextCallback(this) {
             @Override
             public void onSuccess(Response response, String result) {
                 Log.i("MainActivity", result + Thread.currentThread().getId());
@@ -63,7 +64,7 @@ OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_GET, "http://httpbin.o
             public void onFinish() {
 
             }
-        });
+        });        
 ```
 
 ```java
