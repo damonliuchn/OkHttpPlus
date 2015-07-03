@@ -10,6 +10,14 @@ A extension for okhttp
 
 3、support callback with onStart() and onFinish()
 
+4、 callback in UIThread
+
+5、 callback can bind activity or fragment 's lifecycle
+
+6、 more simple get or post method
+
+7、auto check network_error and response error
+
 # Usage
 ```java
 OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_GET, "http://httpbin.org/get", null), new TextCallback() {
@@ -34,8 +42,29 @@ OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_GET, "http://httpbin.o
 
             }
         });
-```
+        
+        OkHttpUtil.get("http://httpbin.org/get", null, new TextCallback(this) {
+            @Override
+            public void onSuccess(Response response, String result) {
+                Log.i("MainActivity", result + Thread.currentThread().getId());
+            }
 
+            @Override
+            public void onFailed(Response response, Exception e) {
+                Log.i("MainActivity", response.code() + e.toString());
+            }
+
+            @Override
+            public void onStart() {
+                Log.i("MainActivity", "start:" + Thread.currentThread().getId());
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+```
 
 ```java
 repositories {
@@ -45,7 +74,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.MasonLiuChn:OkHttpPlus:1.0.1'
+    compile 'com.github.MasonLiuChn:OkHttpPlus:1.0.2'
 }
 ```
 
