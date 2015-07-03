@@ -1,5 +1,7 @@
 package net.masonliu.okhttpplus;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.squareup.okhttp.Response;
 
@@ -9,23 +11,28 @@ public abstract class ObjectCallback<T> extends TextCallback {
 
     protected Class<T> tClass;
 
+    public ObjectCallback(Context context) {
+        super(context, false);
+    }
+
     @Override
-    public void onSuccess(Response response,String responseString) {
+    public void onSuccess(final Response response, String responseString) {
         try {
             tClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-            T t = new Gson().fromJson(responseString, tClass);
-            onSuccess(response,t);
+            final T t = new Gson().fromJson(responseString, tClass);
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (!needBindVerify || verify()) {
+                        onSuccess(response, t);
+                    }
+                }
+            });
         } catch (Exception e) {
-            onObjectFailed(null, e);
+            failedAndFinish(response, e);
         }
     }
 
-    @Override
-    public void onFailed(Response response,Exception e) {
-        onObjectFailed(response,e);
-    }
-
-    public abstract void onSuccess(Response response,T result);
-    public abstract void onObjectFailed(Response response,Exception e);
+    public abstract void onSuccess(Response response, T result);
 
 }

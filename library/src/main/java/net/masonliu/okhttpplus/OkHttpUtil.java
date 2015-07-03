@@ -6,6 +6,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -13,20 +14,21 @@ import java.util.concurrent.TimeUnit;
  */
 public class OkHttpUtil {
     private static final OkHttpClient mOkHttpClient = new OkHttpClient();
-    static{
+
+    static {
         mOkHttpClient.setConnectTimeout(30, TimeUnit.SECONDS);
     }
 
-    public static Response execute(SimpleRequest request) throws IOException{
+    public static Response execute(SimpleRequest request) throws IOException {
         return mOkHttpClient.newCall(request.getRequest()).execute();
     }
 
-    public static void enqueue(SimpleRequest request, BaseCallback responseCallback){
+    public static void enqueue(SimpleRequest request, BaseCallback responseCallback) {
         responseCallback.onStart();
         mOkHttpClient.newCall(request.getRequest()).enqueue(responseCallback);
     }
 
-    public static void enqueue(SimpleRequest request){
+    public static void enqueue(SimpleRequest request) {
         mOkHttpClient.newCall(request.getRequest()).enqueue(new Callback() {
 
             @Override
@@ -39,5 +41,13 @@ public class OkHttpUtil {
 
             }
         });
+    }
+
+    public static void get(String url, Map<String, String> params, BaseCallback responseCallback) {
+        OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_GET, url, params), responseCallback);
+    }
+
+    public static void post(String url, Map<String, String> params, BaseCallback responseCallback) {
+        OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_POST, url, params), responseCallback);
     }
 }

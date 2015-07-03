@@ -1,30 +1,55 @@
 package net.masonliu.okhttpplus;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.squareup.okhttp.Response;
 
 public abstract class TextCallback extends BaseCallback {
 
+    private boolean isOnSuccessInMainThread;
 
-    @Override
-    public void onBaseFailed(Response response, Exception e) {
-        onFailed(response,e);
+    public TextCallback(Context context) {
+        super(context);
+        this.isOnSuccessInMainThread = true;
+    }
+
+    public TextCallback(Activity context) {
+        super(context);
+        this.isOnSuccessInMainThread = true;
+    }
+
+    public TextCallback(Context context, boolean isOnSuccessInMainThread) {
+        super(context);
+        this.isOnSuccessInMainThread = isOnSuccessInMainThread;
     }
 
     @Override
-    public void onBaseSuccess(Response response) {
+    public void onBaseSuccess(final Response response) {
         if (response.isSuccessful()) {
-            try{
-                String responseStr = response.body().string();
-                onSuccess(response,responseStr);
-            }catch(Exception e){
-                onFailed(response,e);
+            try {
+                final String responseStr = response.body().string();
+                if (isOnSuccessInMainThread) {
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!needBindVerify || verify()) {
+                                onSuccess(response, responseStr);
+                            }
+                        }
+                    });
+                } else {
+                    if (!needBindVerify || verify()) {
+                        onSuccess(response, responseStr);
+                    }
+                }
+            } catch (Exception e) {
+                failedAndFinish(response, e);
             }
         } else {
-            onFailed(response,null);
+            failedAndFinish(response, new Exception("have response but it is not successful"));
         }
     }
 
-    public abstract void onSuccess(Response response,String result);
-    public abstract void onFailed(Response response,Exception e);
-
+    public abstract void onSuccess(Response response, String result);
 }
