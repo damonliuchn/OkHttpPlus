@@ -13,7 +13,11 @@ import java.util.concurrent.TimeUnit;
  * Created by liumeng on 4/9/15.
  */
 public class OkHttpUtil {
-    private static final OkHttpClient mOkHttpClient = new OkHttpClient();
+    public static final OkHttpClient mOkHttpClient = new OkHttpClient();
+    
+    private OkHttpUtil(){
+        
+    }
 
     static {
         mOkHttpClient.setConnectTimeout(30, TimeUnit.SECONDS);
