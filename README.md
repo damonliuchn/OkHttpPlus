@@ -75,7 +75,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.MasonLiuChn:OkHttpPlus:1.0.2'
+    compile 'com.github.MasonLiuChn:OkHttpPlus:1.0.3'
 }
 ```
 
