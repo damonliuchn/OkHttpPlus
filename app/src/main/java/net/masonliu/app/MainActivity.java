@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.squareup.okhttp.Response;
 
+import net.masonliu.okhttpplus.BaseCallback;
 import net.masonliu.okhttpplus.OkHttpUtil;
 import net.masonliu.okhttpplus.SimpleRequest;
 import net.masonliu.okhttpplus.TextCallback;
@@ -33,6 +34,15 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onFailed(Response response, Exception e) {
                 Log.i("MainActivity", response.code() + e.toString());
+                if (response.code() == BaseCallback.NETWORK_ERROR) {
+                    //没有网络
+                } else if (response.code() == BaseCallback.NO_RESPONSE) {
+                    //有网络，但连不上服务器
+                } else if (response.code() >= 200 && response.code() < 300) {
+                    //内部错误，如 json 解析出错
+                } else {
+                    //有网络，也连上了服务器，但是正常标识的 error httpcode
+                }
             }
 
             @Override
