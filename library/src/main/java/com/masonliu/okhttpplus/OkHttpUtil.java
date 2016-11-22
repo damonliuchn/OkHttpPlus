@@ -1,26 +1,26 @@
-package net.masonliu.okhttpplus;
+package com.masonliu.okhttpplus;
 
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+
+import com.masonliu.okhttpplus.callback.BaseCallback;
+import com.masonliu.okhttpplus.request.SimpleRequest;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
+
 /**
  * Created by liumeng on 4/9/15.
  */
 public class OkHttpUtil {
-    public static final OkHttpClient mOkHttpClient = new OkHttpClient();
-    
-    private OkHttpUtil(){
-        
-    }
+    private static final OkHttpClient mOkHttpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).build();
 
-    static {
-        mOkHttpClient.setConnectTimeout(30, TimeUnit.SECONDS);
+    private OkHttpUtil() {
+
     }
 
     public static Response execute(SimpleRequest request) throws IOException {
@@ -35,13 +35,14 @@ public class OkHttpUtil {
     public static void enqueue(SimpleRequest request) {
         mOkHttpClient.newCall(request.getRequest()).enqueue(new Callback() {
 
+
             @Override
-            public void onResponse(Response arg0) throws IOException {
+            public void onFailure(Call call, IOException e) {
 
             }
 
             @Override
-            public void onFailure(Request arg0, IOException arg1) {
+            public void onResponse(Call call, Response response) throws IOException {
 
             }
         });

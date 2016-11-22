@@ -1,11 +1,4 @@
-package net.masonliu.okhttpplus;
-
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Headers;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
+package com.masonliu.okhttpplus.request;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -13,19 +6,24 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimpleRequest {
-    private Request request;
-    private RequestBody mRequestBody;
-    public Request.Builder mRequestBuilder = new Request.Builder();
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
+public class SimpleRequest {
     public static final int METHOD_GET = 1;
     public static final int METHOD_POST = 2;
-    private int method = METHOD_GET;
-
+    public Request.Builder mRequestBuilder = new Request.Builder();
     public HashMap<String, String> mHeaders = new HashMap<String, String>();
     public HashMap<String, String> mParams = new HashMap<String, String>();
     public HashMap<String, Pair<String, File>> mFiles = new HashMap<String, Pair<String, File>>();
     public String mUrl;
+    private Request request;
+    private RequestBody mRequestBody;
+    private int method = METHOD_GET;
 
     public SimpleRequest(int method, String url, Map<String, String> params) {
         mUrl = url;
@@ -57,14 +55,14 @@ public class SimpleRequest {
     private void prepareParamsForPost() {
 
         if (mFiles.size() == 0) {
-            FormEncodingBuilder builder = new FormEncodingBuilder();
+            FormBody.Builder builder = new FormBody.Builder();
             for (Map.Entry<String, String> map : mParams.entrySet()) {
                 builder.add(map.getKey(), map.getValue());
             }
             mRequestBody = builder.build();
         } else {
-            MultipartBuilder builder = new MultipartBuilder();
-            builder.type(MultipartBuilder.FORM);
+            MultipartBody.Builder builder = new MultipartBody.Builder();
+            builder.setType(MultipartBody.FORM);
             for (Map.Entry<String, String> map : mParams.entrySet()) {
                 builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + map.getKey() + "\""), RequestBody.create(null, map.getValue()));
             }
@@ -87,7 +85,7 @@ public class SimpleRequest {
                     urlEncodeUTF8(entry.getKey()),
                     urlEncodeUTF8(entry.getValue())));
         }
-        if(sb.toString().length()>0){
+        if (sb.toString().length() > 0) {
             if (mUrl.contains("?")) {
                 mUrl = mUrl + "&";
             } else {

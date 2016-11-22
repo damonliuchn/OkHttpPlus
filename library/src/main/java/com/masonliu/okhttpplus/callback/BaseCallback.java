@@ -1,4 +1,4 @@
-package net.masonliu.okhttpplus;
+package com.masonliu.okhttpplus.callback;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,12 +7,12 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Protocol;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Protocol;
+import okhttp3.Response;
 
 public abstract class BaseCallback implements Callback {
     public final static int NETWORK_ERROR = 10000;
@@ -44,18 +44,18 @@ public abstract class BaseCallback implements Callback {
     }
 
     @Override
-    public void onFailure(Request request, IOException e) {
+    public void onFailure(Call call, IOException e) {
         Response response = null;
         if (getCurrentNetType(context) == 0) {
             response = new Response.Builder()
-                    .request(request)
+                    .request(call.request())
                     .code(NETWORK_ERROR)
                     .message("NETWORK_ERROR")
                     .protocol(Protocol.HTTP_1_0)
                     .build();
         } else {
             response = new Response.Builder()
-                    .request(request)
+                    .request(call.request())
                     .code(NO_RESPONSE)
                     .message("NO_RESPONSE")
                     .protocol(Protocol.HTTP_1_0)
@@ -65,7 +65,7 @@ public abstract class BaseCallback implements Callback {
     }
 
     @Override
-    public void onResponse(Response response) throws IOException {
+    public void onResponse(Call call,Response response) throws IOException {
         onBaseSuccess(response);
         mainHandler.post(new Runnable() {
             @Override

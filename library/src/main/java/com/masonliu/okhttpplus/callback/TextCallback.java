@@ -1,9 +1,10 @@
-package net.masonliu.okhttpplus;
+package com.masonliu.okhttpplus.callback;
 
 import android.app.Activity;
 import android.content.Context;
 
-import com.squareup.okhttp.Response;
+import okhttp3.Response;
+
 
 public abstract class TextCallback extends BaseCallback {
 
