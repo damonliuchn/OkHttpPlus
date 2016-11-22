@@ -52,12 +52,14 @@ public class DownloadFileTask extends OkAsyncTask<Void, Void, File> {
     @Override
     protected File doInBackground(Void... params) {
         File file = new File(path);
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
         try {
             file.getParentFile().mkdirs();
             file.delete();
             Response response = OkHttpUtil.execute(new SimpleRequest(SimpleRequest.METHOD_GET, url, null));
-            InputStream inputStream = response.body().byteStream();
-            OutputStream outputStream = new FileOutputStream(file);
+            inputStream = response.body().byteStream();
+            outputStream = new FileOutputStream(file);
             int read;
             byte[] bytes = new byte[1024];
             while ((read = inputStream.read(bytes)) != -1) {
@@ -69,6 +71,13 @@ public class DownloadFileTask extends OkAsyncTask<Void, Void, File> {
                 file.delete();
             } catch (Exception e2) {
                 e2.printStackTrace();
+            }
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (outputStream != null) {
+                outputStream.close();
             }
         }
         return file;
