@@ -99,7 +99,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.MasonLiuChn:OkHttpPlus:342.280.0'
+    compile 'com.github.MasonLiuChn:OkHttpPlus:342.280.1'
 }
 ```
 
