@@ -29,12 +29,18 @@ public class DownloadFileTask extends OkAsyncTask<Void, Void, File> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        if (callback == null) {
+            return;
+        }
         callback.onDownloadStart();
     }
 
     @Override
     protected void onPostExecute(File file) {
         super.onPostExecute(file);
+        if (callback == null) {
+            return;
+        }
         callback.onDownloadFinish();
         if (file.exists()) {
             callback.onDownloadSuccess(file);
@@ -59,7 +65,11 @@ public class DownloadFileTask extends OkAsyncTask<Void, Void, File> {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            file.delete();
+            try {
+                file.delete();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
         }
         return file;
     }
