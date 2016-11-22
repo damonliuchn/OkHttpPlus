@@ -10,13 +10,15 @@ A extension for okhttp
 
 3、support callback with onStart() and onFinish()
 
-4、 callback in UIThread
+4、callback in UIThread
 
-5、 callback can bind activity or fragment 's lifecycle
+5、callback can bind activity or fragment 's lifecycle
 
-6、 more simple get or post method
+6、more simple get or post method
 
 7、auto check network_error and response error
+
+8、download file with callback
 
 # Usage
 ```java
@@ -64,7 +66,29 @@ A extension for okhttp
             public void onFinish() {
 
             }
-        });        
+        });
+      OkHttpUtil.download("http://download-youcai.ele.me/app/android/res/yc-res.apk", getFilesDir() + "/yc.apk", new DownloadCallback() {
+                  @Override
+                  public void onDownloadStart() {
+
+                  }
+
+                  @Override
+                  public void onDownloadFinish() {
+
+                  }
+
+                  @Override
+                  public void onDownloadSuccess(File file) {
+                      Toast.makeText(MainActivity.this, "ddd" + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                  }
+
+                  @Override
+                  public void onDownloadFailed() {
+
+                  }
+              });
+
 ```
 
 ```java

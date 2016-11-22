@@ -7,9 +7,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.masonliu.okhttpplus.OkHttpUtil;
-import com.masonliu.okhttpplus.callback.BaseCallback;
+import com.masonliu.okhttpplus.callback.DownloadCallback;
 import com.masonliu.okhttpplus.callback.TextCallback;
-import com.masonliu.okhttpplus.request.SimpleRequest;
+
+import java.io.File;
 
 import okhttp3.Response;
 
@@ -61,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onSuccess(Response response, String result) {
                 Log.i("MainActivity", result + Thread.currentThread().getId());
-                Toast.makeText(MainActivity.this, "ddd"+result, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "ddd" + result, Toast.LENGTH_LONG).show();
                 testTextView.setText("ddddddd");
             }
 
@@ -77,6 +78,28 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onFinish() {
+
+            }
+        });
+
+        OkHttpUtil.download("http://download-youcai.ele.me/app/android/res/yc-res.apk", getFilesDir() + "/yc.apk", new DownloadCallback() {
+            @Override
+            public void onDownloadStart() {
+
+            }
+
+            @Override
+            public void onDownloadFinish() {
+
+            }
+
+            @Override
+            public void onDownloadSuccess(File file) {
+                Toast.makeText(MainActivity.this, "ddd" + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onDownloadFailed() {
 
             }
         });

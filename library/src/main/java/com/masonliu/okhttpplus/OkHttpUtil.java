@@ -2,6 +2,8 @@ package com.masonliu.okhttpplus;
 
 
 import com.masonliu.okhttpplus.callback.BaseCallback;
+import com.masonliu.okhttpplus.callback.DownloadCallback;
+import com.masonliu.okhttpplus.download.DownloadFileTask;
 import com.masonliu.okhttpplus.request.SimpleRequest;
 
 import java.io.IOException;
@@ -54,5 +56,9 @@ public class OkHttpUtil {
 
     public static void post(String url, Map<String, String> params, BaseCallback responseCallback) {
         OkHttpUtil.enqueue(new SimpleRequest(SimpleRequest.METHOD_POST, url, params), responseCallback);
+    }
+
+    public static void download(String url, String path, DownloadCallback downloadCallback) {
+        new DownloadFileTask(url, path, downloadCallback).executeOnMyExecutor();
     }
 }
